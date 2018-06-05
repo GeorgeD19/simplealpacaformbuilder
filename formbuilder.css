@@ -1,30 +1,73 @@
-.alpaca-array-actionbar.alpaca-array-actionbar-top {
-  
-   
-}
-
 .alpaca-container-label span:hover {
-    
-     color:#337ab7;
+    color: #337ab7;
 }
-
 
 .alpaca-array-actionbar.alpaca-array-actionbar-top.btn-group {
-    
-        
-        
-       
     display: inline-block !important;
-  
 }
 
-.fielddiv{
-    
-    background-color:#f7f7f9;
+.fielddiv {
+    background-color: #f7f7f9;
 }
 
+.listfielddiv {
+    background-color: #fff;
+}
 
-.listfielddiv{
-    
-    background-color:#fff;
+.iphone {
+    display: inline-block;
+    margin: 30px;
+    background-color: #f8f8f8;
+    border: 1px solid #c0c0c0;
+    padding: 0 10px 0 10px;
+    border-radius: 25px;
+    max-width: 100% !important;
+}
+
+.iphone-screen {
+    border: 1px solid #c0c0c0;
+    width: 210px;
+    height: 320px;
+    overflow-y: scroll;
+}
+
+.iphone-small-round-top {
+    margin: 10px auto;
+    width: 5px;
+    height: 5px;
+    background-color: #c0c0c0;
+    border-radius: 50%;
+}
+
+.iphone-round-top-left {
+    float: left;
+    margin-left: 65px;
+    margin-top: -2px;
+    width: 9px;
+    height: 9px;
+    background-color: #c0c0c0;
+    border-radius: 50%;
+}
+
+.iphone-speaker {
+    margin: 15px auto;
+    margin-top: 10px;
+    width: 30px;
+    height: 5px;
+    background-color: #c0c0c0;
+    border-radius: 3px;
+}
+
+.iphone-button {
+    border-radius: 50%;
+    margin: 10px auto;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #c0c0c0;
+    background: none !important;
+}
+
+form > .alpaca-field-valid{
+    max-height: 500px;
+    overflow: scroll;
 }

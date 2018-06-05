@@ -17,9 +17,14 @@ function getSchema(formdef){
         "date": "string",
         "datetime": "string",
         "information": "information",
-        "address": "string"
+        "address": "string",
+        "signature": "string",
+        "camera": "string",
+        "currency": "string"
     };
     
+    var fieldIndex = 0;
+
     var baseProps = function (index, value) {
         var prop = {
             "type": schematypes[value.fieldtype]
@@ -33,6 +38,12 @@ function getSchema(formdef){
         if (value.default) {
             prop.default = value.default;
         }
+        if(value.enum) {
+            prop.enum = value.enum;
+        }
+        // if (value.type == "checkbox" && value.enum) {
+        //     prop.enum = value.enum;
+        // }
         if (value.description) {
             prop.description = value.description;
         }
@@ -147,15 +158,28 @@ function getOptions(formdef){
     var options = {
         "fields": {}
     };
+    // console.log(formdef);
     $.each(formdef.formfields,function(index, value){
         var field = baseFields(index, value);
-        field.ordering = index;
+        field.ordering = fieldIndex;
+        fieldIndex++;
+
+        console.log(field);
+        if(field.type == "array") {
+            $.each(field.items.fields, function(lindex, lvalue) {
+                lvalue.ordering = fieldIndex;
+                fieldIndex++;
+            });
+        }
+        
+        
         options.fields[value.fieldname] = field;
     });
     return options;
 }
 
 function showForm(value){
+    fieldIndex = 0;
     var schema = getSchema(value);
     var options = getOptions(value);
     var config = {
@@ -198,6 +222,13 @@ var baseFieldSchema = {
             "title": "Default",
             "type": "string"
         },
+        "enum": {
+            "title": "Enum",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
         "readonly": {
             "type": "boolean"
         },
@@ -238,6 +269,7 @@ var baseFieldSchema = {
         }
     },
     "dependencies": {
+        "enum": ["fieldtype"],
         "fieldoptions": ["fieldtype"],
         "vertical": ["fieldtype"],
         "helper": ["showhelp"],
@@ -249,6 +281,11 @@ var baseFieldSchema = {
 var baseFieldOptions = {
     "showhelp": {
         "rightLabel": "Help text"
+    },
+    "enum": {
+        "dependencies": {
+            "fieldtype": ["checkbox"]
+        }
     },
     "showplaceholder" :{
     	"rightLabel": "Show placeholder",
@@ -288,6 +325,7 @@ var fieldSchema = $.extend(true,  {}, baseFieldSchema,
                 "text",
                 "address",
                 "chooser",
+                "camera",
                 "color",
                 "currency",
                 "country",
@@ -303,6 +341,7 @@ var fieldSchema = $.extend(true,  {}, baseFieldSchema,
                 "time",
                 "checkbox", 
                 "select", 
+                "signature", 
                 "radio", 
                 "textarea", 
                 "email",
@@ -335,7 +374,8 @@ fieldSchema.properties.listfields.items = fieldSchema;
 var fieldOptions = $.extend(true,  {}, baseFieldOptions, 
 {
 	"listfields" :{
-	    "items": {
+        "items": {
+            "collapsible": true,
  		 	"fieldClass":"listfielddiv"
     	},
     	"dependencies": {
@@ -365,8 +405,8 @@ var formbuilderConfig = {
     "options": {
     	 "fields": {
     	 	"formfields":{
-    	 		"toolbarSticky": true,
-    	 		 "items": {
+                 "toolbarSticky": true,
+                 "items": {
     	 		 	"fieldClass":"fielddiv",
 					"fields": fieldOptions
     	 		 }
