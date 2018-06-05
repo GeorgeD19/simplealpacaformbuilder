@@ -189,6 +189,7 @@ function showForm(value){
   	// $("#schema").val(JSON.stringify(schema, null, "  "));
     // $("#options").val(JSON.stringify(options, null, "  "));
     $("#definition").val(JSON.stringify(config, null, "  "));
+    $("#minified").val(JSON.stringify(config, null, 0));
   	var exists = $("#form2").alpaca("exists");
   	if (exists){
   		 $("#form2").alpaca("destroy");
