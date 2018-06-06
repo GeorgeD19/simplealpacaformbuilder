@@ -47,6 +47,14 @@ function getSchema(formdef){
         if (value.description) {
             prop.description = value.description;
         }
+        if(value.dependencies) {
+
+            prop.dependencies = [];
+            $.each(value.dependencies, function(key, value) {
+                prop.dependencies[value.key] = value.value;
+            });
+        }
+
         if (value.fieldoptions){
             
             prop.enum = $.map( value.fieldoptions, function( v, i){
@@ -164,7 +172,6 @@ function getOptions(formdef){
         field.ordering = fieldIndex;
         fieldIndex++;
 
-        console.log(field);
         if(field.type == "array") {
             $.each(field.items.fields, function(lindex, lvalue) {
                 lvalue.ordering = fieldIndex;
@@ -199,7 +206,6 @@ function showForm(value){
 }
 
 var baseFieldSchema = {
-    "title": "Field",
     "type": "object",
     "properties": {
         "fieldname": {
@@ -230,6 +236,26 @@ var baseFieldSchema = {
             "items": {
                 "type": "string"
             }
+        },
+        "dependencies" :{
+            "type":"array",   
+            "title": "Dependencies",
+            "items": {
+	            "type": "object",
+	            "properties": {
+	                "key": {
+	                    "title": "Key",
+	                    "type": "string"
+	                },
+	                "value": {
+                        "type":"array",
+                        "items": {
+                            "title": "Value",
+                            "type": "string"
+                        }
+	                },	
+	            }
+             }
         },
         "readonly": {
             "type": "boolean"
@@ -297,6 +323,9 @@ var baseFieldOptions = {
 	},
 	"fieldname": {
        	"showMessages":false
+    },
+    "dependencies" :{
+    	"type":"table"
     },
 	"fieldoptions" :{
     	"type":"table",
